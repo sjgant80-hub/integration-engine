@@ -1,0 +1,7 @@
+[
+  {
+    "mutation": "+ 1 → - 1",
+    "snippet": "const avg = (i + j) / 2 + 1;                       // ties share the average rank",
+    "reason": "Equivalent. This is the 1-based offset on Spearman ranks, and it shifts EVERY rank by the same constant. The correlation centres each series on its own mean before taking the covariance, so a uniform shift cancels exactly: rho is identical whether ranks start at 1 or at -1. Killing it would mean asserting a particular rank numbering that no caller can observe."
+  }
+]
