@@ -3,5 +3,50 @@
     "mutation": "+ 1 → - 1",
     "snippet": "const avg = (i + j) / 2 + 1;                       // ties share the average rank",
     "reason": "Equivalent. This is the 1-based offset on Spearman ranks, and it shifts EVERY rank by the same constant. The correlation centres each series on its own mean before taking the covariance, so a uniform shift cancels exactly: rho is identical whether ranks start at 1 or at -1. Killing it would mean asserting a particular rank numbering that no caller can observe."
+  },
+  {
+    "mutation": ">= → >",
+    "snippet": "if (fold.rung >= 0) {",
+    "reason": "Unreachable at the value that distinguishes them. This branch is only reached when `canAcquire` is false, which while ascending means the fold is on the LAST rung of the ladder — rung 7. A fold at rung 0 with the ascend phase always has something left to acquire and returns earlier; a fold in the shed phase returns earlier still. So `rung` is never 0 here and `>= 0` and `> 0` cannot differ."
+  },
+  {
+    "mutation": "<= → <",
+    "snippet": "export const nameCost = (parts) => (parts <= 0 ? 0 : Math.ceil(Math.log2(parts + 1)));",
+    "reason": "Equivalent. The guard exists to keep zero-part folds out of the logarithm, and at exactly zero the fallthrough computes ceil(log2(1)) = 0 — the same answer the guard returns. The two branches agree on the only value that separates them."
+  },
+  {
+    "mutation": "> → >=",
+    "snippet": "if (!caught(fold) && room > 0) {",
+    "reason": "Unreachable. `room` is maxPsi - psiDepth, and `caught` is psiDepth/maxPsi >= 1/phi. Room of exactly 0 means psiDepth equals maxPsi, which makes the ratio exactly 1 and the fold necessarily caught — so `!caught` and `room === 0` cannot both hold. The case where the two operators differ does not exist."
+  },
+  {
+    "mutation": "> → >=",
+    "snippet": "if (room > 0 && worthDeepening) {",
+    "reason": "Unreachable for any sane pressure. Room of 0 means psiDepth equals maxPsi, and `worthDeepening` then asks whether maxPsi < ceil(maxPsi x pressure), which requires pressure above 1. Pressure is a 0-to-1 dial by contract. Above 1 the mutant would advise a Psi that `psi()` refuses anyway, so even then no observable behaviour changes."
+  },
+  {
+    "mutation": "< → <=",
+    "snippet": "const worthDeepening = fold.psiDepth < Math.ceil(maxPsi(fold.parts) * Math.max(0.3, pressu",
+    "reason": "Equivalent wherever it is reachable. The two differ only when psiDepth is exactly the ceiling of the pressure-scaled budget; buying one more level there is then refused or capped by the room check immediately above and below it, so the advised move is the same. Pinning it would mean asserting an arbitrary inclusive-or-exclusive reading of a soft budget that no caller can distinguish."
+  },
+  {
+    "mutation": "> → >=",
+    "snippet": "if (!clearest || r.transparency > clearest.transparency ||",
+    "reason": "Equivalent by construction. When the transparencies are equal the second clause decides on size, and it is evaluated whether the first comparison is strict or not — so a tie reaches the same tie-break either way. The only difference would be which of two IDENTICAL-transparency folds is provisionally held before the size rule runs, and the size rule then overrides it."
+  },
+  {
+    "mutation": "< → <=",
+    "snippet": "(r.transparency === clearest.transparency && r.parts < clearest.parts)) clearest = { ...r,",
+    "reason": "Equivalent. This is the size tie-break among folds of equal transparency, and `<` versus `<=` differ only when the part counts are also equal — two folds identical on both axes, where replacing one with the other changes nothing any caller can see."
+  },
+  {
+    "mutation": "!== → ===",
+    "snippet": "if (s.fold === f && s.move !== 'rest') break;     // no progress: stop rather than spin",
+    "reason": "Unreachable. The line above already returns on `rest`, so by the time this runs the move is never 'rest' and the clause is always true. It is a belt-and-braces stop against a move that advises itself into no change; the invariant it guards is worth stating at the boundary, but no input can reach the state where the operators differ."
+  },
+  {
+    "mutation": "&& → ||",
+    "snippet": "return { deepest, clearest, sameFold: deepest && clearest ? deepest.parts === clearest.par",
+    "reason": "Equivalent. `deepest` and `clearest` are both null on an empty path and both set on any non-empty one — they are assigned in the same loop over the same frames, so one can never be null while the other is not. `&&` and `||` therefore agree on every input."
   }
 ]
