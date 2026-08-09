@@ -1,0 +1,11 @@
+{
+  "name": "the integration engine — grow and catch, together",
+  "short_name": "integration",
+  "description": "The depth organ for an AI-run estate. Recursion catches the self; geometry grows it. A fold cannot hold a model of itself bigger than itself — so it knows when folding again buys nothing.",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#080b11",
+  "theme_color": "#080b11",
+  "icons": [{ "src": "icon.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "any maskable" }]
+}

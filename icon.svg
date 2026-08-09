@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" role="img" aria-label="integration engine">
+  <rect width="512" height="512" rx="112" fill="#080b11"/>
+  <g fill="none" stroke="#5c7cfa" stroke-width="14" stroke-linejoin="round">
+    <path d="M256 96l128 74v148l-128 74-128-74V170z"/>
+    <path d="M256 160l72 42v84l-72 42-72-42v-84z"/>
+  </g>
+  <circle cx="256" cy="244" r="26" fill="#9775fa"/>
+</svg>
